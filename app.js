@@ -75,8 +75,11 @@ function getText() {
     .then(response => response.json())
     .then(data => data.content)
 }
-
+let spacechar=document.createElement('span')
+spacechar.innerText=' '
 async function getNextLine(){
+    if(!started)
+    DisplayText.appendChild(spacechar)
     const FetchedLine =  await getText()
     FetchedLine.split('').forEach(element => {
         const char = document.createElement('span')
