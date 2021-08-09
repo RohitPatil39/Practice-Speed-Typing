@@ -1,5 +1,3 @@
-
-
 const TextToDisplay = 'https://api.quotable.io/random'
 const DisplayText = document.getElementById('TextToShow')
 const InputTxt = document.getElementById('InputText')
@@ -7,6 +5,9 @@ const TimerCount = document.getElementById('Timer')
 const feedback = document.getElementById('Feedback')
 const wpm = document.getElementById('WPM')
 const container = document.getElementById('Container')
+const refreshpage = document.getElementById('TryAgain')
+
+TimerCount.innerText="Start typing ..."
 
 InputText.value = null
 
@@ -104,22 +105,22 @@ function getTimerTime() {
     InputTxt.style.visibility = "hidden"; 
     container.style.visibility = "hidden"; 
     TimerCount.style.visibility = "hidden"; 
+    refreshpage.style.visibility = "visible"
+    document.getElementById('Result').style.visibility = "visible"
 
     if(correctWords > 25){
         feedback.innerText = "You are Fast!"
         feedback.style.visibility = "visible"
         wpm.style.visibility = "visible"
         wpm.innerText = "\n Your Speed : "+correctWords +" wpm"
-        document.getElementById('TryAgain').style.visibility = "visible"
-        tryAgain()
     }
     else{
         feedback.innerText = "\n You need to Improve! \n"
         feedback.style.visibility = "visible"
         wpm.style.visibility = "visible"
         wpm.innerText = "\n Your Speed : "+correctWords +" wpm"
-        document.getElementById('TryAgain').style.visibility = "visible"
-        tryAgain()
+        
+        
     }
  
     return "Time is Up !"
