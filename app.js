@@ -45,7 +45,7 @@ InputTxt.addEventListener('input', () => {
         } 
     })
    
-    if(charArray.length == typedArray.length)
+    if(charArray.length-20 == typedArray.length)
     getNextLine()
   
     
