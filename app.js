@@ -4,16 +4,19 @@ const InputTxt = document.getElementById('InputText')
 const TimerCount = document.getElementById('Timer')
 const feedback = document.getElementById('Feedback')
 const wpm = document.getElementById('WPM')
+const errors = document.getElementById('Mistakes')
+const accuracy = document.getElementById('Accuracy')
 const container = document.getElementById('Container')
 const refreshpage = document.getElementById('TryAgain')
+const welcome = document.getElementById('welcomeMsg')
 
-TimerCount.innerText="Start typing ..."
+TimerCount.innerText="Start typing..  "
 
 InputText.value = null
 
 let started = true
 let correctWords = 0
-let temp = 0
+let mistakes = 0
 let charArray
 let typedArray
 
@@ -22,7 +25,7 @@ InputTxt.addEventListener('input', () => {
     typedArray = InputTxt.value.split('')
 
     charArray.forEach((char, index) => {
-
+        
         const InputChar = typedArray[index]
 
         if(InputChar == null){
@@ -45,9 +48,9 @@ InputTxt.addEventListener('input', () => {
         } 
     })
    
-    if(charArray.length-20 == typedArray.length)
-    getNextLine()
-  
+    if(charArray.length-20 == typedArray.length){
+        getNextLine()
+    }
     
 })
 
@@ -69,18 +72,25 @@ function findwpm(){
             else
             flag = true
     })
+
+    charArray.forEach((char) => {
+        if(char.classList.contains('incorrect'))
+        mistakes ++
+    } )
 }
 function getText() {
     return fetch(TextToDisplay)
     .then(response => response.json())
     .then(data => data.content)
 }
+
 let spacechar=document.createElement('span')
 spacechar.innerText=' '
 async function getNextLine(){
     if(!started)
     DisplayText.appendChild(spacechar)
     const FetchedLine =  await getText()
+    console.log(FetchedLine)
     FetchedLine.split('').forEach(element => {
         const char = document.createElement('span')
         char.innerText = element
@@ -99,33 +109,43 @@ function startTimer() {
 let f=0
 
 function getTimerTime() {
-    if(TimerCount.innerText < 60)
+    if(TimerCount.innerText < 20)
   return Math.floor((new Date() - startTime) / 1000)
   else{
-    
     findwpm()
+
+    if(correctWords > 1){
+        feedback.innerText = "You are Fast! \n"
+        var img=document.createElement('img');
+        img.classList.add('img')
+        img.src = './fast.png' 
+        feedback.appendChild(img);
+    }
+    else{
+        feedback.innerText = "\n You are slow! \n"
+        var img=document.createElement('img');
+        img.classList.add('img')
+        img.src = './turtle.png' 
+        feedback.appendChild(img);
+    }
+    welcome.style.visibility = "hidden"; 
     DisplayText.style.visibility = "hidden"; 
     InputTxt.style.visibility = "hidden"; 
     container.style.visibility = "hidden"; 
     TimerCount.style.visibility = "hidden"; 
     refreshpage.style.visibility = "visible"
+    errors.style.visibility = "visible"
+    accuracy.style.visibility = "visible"
+    feedback.style.visibility = "visible"
+    wpm.style.visibility = "visible"
+    wpm.innerText = "\n Your Speed : "+correctWords +" wpm."
     document.getElementById('Result').style.visibility = "visible"
-
-    if(correctWords > 25){
-        feedback.innerText = "You are Fast!"
-        feedback.style.visibility = "visible"
-        wpm.style.visibility = "visible"
-        wpm.innerText = "\n Your Speed : "+correctWords +" wpm"
-    }
-    else{
-        feedback.innerText = "\n You need to Improve! \n"
-        feedback.style.visibility = "visible"
-        wpm.style.visibility = "visible"
-        wpm.innerText = "\n Your Speed : "+correctWords +" wpm"
-        
-        
-    }
- 
+    errors.innerText = "\n Errors : "+ mistakes +" letters."
+    const percentAccuracy = (100*(1-mistakes/typedArray.length)).toFixed(2)
+    console.log(mistakes)
+    console.log(typedArray.length)
+    accuracy.innerText =  "\n Accuracy : "+ percentAccuracy +" %."
+    
     return "Time is Up !"
 }
 }
