@@ -114,7 +114,7 @@ function getTimerTime() {
   else{
     findwpm()
 
-    if(correctWords > 1){
+    if(correctWords > 28){
         feedback.innerText = "You are Fast! \n"
         var img=document.createElement('img');
         img.classList.add('img')
