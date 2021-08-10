@@ -109,12 +109,12 @@ function startTimer() {
 let f=0
 
 function getTimerTime() {
-    if(TimerCount.innerText < 20)
+    if(TimerCount.innerText < 60)
   return Math.floor((new Date() - startTime) / 1000)
   else{
     findwpm()
 
-    if(correctWords > 1){
+    if(correctWords > 28){
         feedback.innerText = "You are Fast! \n"
         var img=document.createElement('img');
         img.classList.add('img')
