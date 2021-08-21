@@ -10,7 +10,7 @@ const container = document.getElementById('Container')
 const refreshpage = document.getElementById('TryAgain')
 const welcome = document.getElementById('welcomeMsg')
 
-TimerCount.innerText="Start typing..  "
+TimerCount.innerText="Start typing..."
 
 InputText.value = null
 
